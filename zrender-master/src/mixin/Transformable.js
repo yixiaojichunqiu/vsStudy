@@ -3,7 +3,7 @@
  * @module zrender/mixin/Transformable
  * @author pissang (https://www.github.com/pissang)
  */
-
+//坐标变换
 import * as matrix from '../core/matrix';
 import * as vector from '../core/vector';
 

@@ -29,7 +29,7 @@ Animatable.prototype = {
      * 动画
      *
      * @param {string} path The path to fetch value from object, like 'a.b.c'.
-     * @param {boolean} [loop] Whether to loop animation.
+     * @param {boolean} [loop] Whether to loop animation. 循环动画
      * @return {module:zrender/animation/Animator}
      * @example:
      *     el.animate('style', false)
@@ -57,7 +57,7 @@ Animatable.prototype = {
                 target = prop;
             }
         }
-        else {
+        else {//无path 
             target = el;
         }
 
@@ -71,12 +71,12 @@ Animatable.prototype = {
             return;
         }
 
-        var animators = el.animators;
+        var animators = el.animators;//animators对象
 
-        var animator = new Animator(target, loop);
+        var animator = new Animator(target, loop);//新建animator 无path target是el abunatable
 
         animator.during(function (target) {
-            el.dirty(animatingShape);
+            el.dirty(animatingShape);//无path animatingShape为false
         })
         .done(function () {
             // FIXME Animator will not be removed if use `Animator#stop` to stop animation
@@ -90,7 +90,7 @@ Animatable.prototype = {
             zr.animation.addAnimator(animator);
         }
 
-        return animator;
+        return animator;//返回新建animator
     },
 
     /**

@@ -223,7 +223,7 @@ ZRender.prototype = {
     },
 
     /**
-     * Repaint the canvas immediately
+     * Repaint the canvas immediately 重绘canvas
      */
     refreshImmediately: function () {
         // var start = new Date();

@@ -109,9 +109,9 @@ Animation.prototype = {
         animator.animation = null;
     },
 
-    _update: function () {
-        var time = new Date().getTime() - this._pausedTime;
-        var delta = time - this._time;
+    _update: function () {//更新
+        var time = new Date().getTime() - this._pausedTime;//不考虑暂停 _pausedTime为0
+        var delta = time - this._time;//间隔时间
         var clips = this._clips;
         var len = clips.length;
 
@@ -152,8 +152,8 @@ Animation.prototype = {
         // 'frame' should be triggered before stage, because upper application
         // depends on the sequence (e.g., echarts-stream and finish
         // event judge)
-        this.trigger('frame', delta);
-
+        this.trigger('frame', delta);//'frame'应在stage前触发
+        
         if (this.stage.update) {
             this.stage.update();
         }

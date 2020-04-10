@@ -108,7 +108,7 @@ Eventful.prototype = {
     },
 
     /**
-     * Dispatch a event.
+     * Dispatch a event. 事件
      *
      * @param {string} type The event name.
      */

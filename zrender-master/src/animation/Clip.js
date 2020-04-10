@@ -46,22 +46,22 @@ Clip.prototype = {
 
     constructor: Clip,
 
-    step: function (globalTime, deltaTime) {
+    step: function (globalTime, deltaTime) {//动画每步 现在的时间 deltaTime？
         // Set startTime on first step, or _startTime may has milleseconds different between clips
         // PENDING
         if (!this._initialized) {
-            this._startTime = globalTime + this._delay;
+            this._startTime = globalTime + this._delay;//动画开始时间
             this._initialized = true;
         }
 
-        if (this._paused) {
+        if (this._paused) {//如果有暂停？
             this._pausedTime += deltaTime;
             return;
         }
 
-        var percent = (globalTime - this._startTime - this._pausedTime) / this._life;
+        var percent = (globalTime - this._startTime - this._pausedTime) / this._life;//life两个关键帧之间的时间 _pausedTime为0 ？
 
-        // 还没开始
+        // 百分比小于0 还没开始
         if (percent < 0) {
             return;
         }
@@ -76,7 +76,7 @@ Clip.prototype = {
 
         this.fire('frame', schedule);
 
-        // 结束
+        // 百分比等于1 结束
         if (percent === 1) {
             if (this.loop) {
                 this.restart(globalTime);

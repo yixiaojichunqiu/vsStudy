@@ -1420,7 +1420,7 @@ Eventful.prototype = {
     },
 
     /**
-     * Dispatch a event.
+     * Dispatch a event. 事件
      *
      * @param {string} type The event name.
      */
@@ -2846,7 +2846,7 @@ var matrix = (Object.freeze || Object)({
  * @module zrender/mixin/Transformable
  * @author pissang (https://www.github.com/pissang)
  */
-
+//坐标变换
 var mIdentity = identity;
 
 var EPSILON = 5e-5;
@@ -3140,342 +3140,372 @@ Transformable.getLocalTransform = function (target, m) {
  * @exports zrender/animation/easing
  */
 var easing = {
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    linear: function (k) {
-        return k;
-    },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // linear: function (k) {
+    //     console.log("123")
+    //     return k;
+    // },
 
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quadraticIn: function (k) {
-        return k * k;
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quadraticOut: function (k) {
-        return k * (2 - k);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quadraticInOut: function (k) {
-        if ((k *= 2) < 1) {
-            return 0.5 * k * k;
-        }
-        return -0.5 * (--k * (k - 2) - 1);
-    },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quadraticIn: function (k) {
+    //     console.log("123")
+    //     return k * k;
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quadraticOut: function (k) {
+    //     console.log("123")
+    //     return k * (2 - k);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quadraticInOut: function (k) {
+    //     console.log("123")
+    //     if ((k *= 2) < 1) {
+    //         return 0.5 * k * k;
+    //     }
+    //     return -0.5 * (--k * (k - 2) - 1);
+    // },
 
-    // 三次方的缓动（t^3）
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    cubicIn: function (k) {
-        return k * k * k;
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    cubicOut: function (k) {
-        return --k * k * k + 1;
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    cubicInOut: function (k) {
-        if ((k *= 2) < 1) {
-            return 0.5 * k * k * k;
-        }
-        return 0.5 * ((k -= 2) * k * k + 2);
-    },
+    // // 三次方的缓动（t^3）
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // cubicIn: function (k) {
+    //     console.log("123")
+    //     return k * k * k;
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // cubicOut: function (k) {
+    //     console.log("123")
+    //     return --k * k * k + 1;
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // cubicInOut: function (k) {
+    //     console.log("123")
+    //     if ((k *= 2) < 1) {
+    //         return 0.5 * k * k * k;
+    //     }
+    //     return 0.5 * ((k -= 2) * k * k + 2);
+    // },
 
-    // 四次方的缓动（t^4）
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quarticIn: function (k) {
-        return k * k * k * k;
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quarticOut: function (k) {
-        return 1 - (--k * k * k * k);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quarticInOut: function (k) {
-        if ((k *= 2) < 1) {
-            return 0.5 * k * k * k * k;
-        }
-        return -0.5 * ((k -= 2) * k * k * k - 2);
-    },
+    // // 四次方的缓动（t^4）
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quarticIn: function (k) {
+    //     return k * k * k * k;
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quarticOut: function (k) {
+    //     console.log("123")
+    //     return 1 - (--k * k * k * k);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quarticInOut: function (k) {
+    //     console.log("123")
+    //     if ((k *= 2) < 1) {
+    //         return 0.5 * k * k * k * k;
+    //     }
+    //     return -0.5 * ((k -= 2) * k * k * k - 2);
+    // },
 
-    // 五次方的缓动（t^5）
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quinticIn: function (k) {
-        return k * k * k * k * k;
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quinticOut: function (k) {
-        return --k * k * k * k * k + 1;
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    quinticInOut: function (k) {
-        if ((k *= 2) < 1) {
-            return 0.5 * k * k * k * k * k;
-        }
-        return 0.5 * ((k -= 2) * k * k * k * k + 2);
-    },
+    // // 五次方的缓动（t^5）
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quinticIn: function (k) {
+    //     console.log("123")
+    //     return k * k * k * k * k;
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quinticOut: function (k) {
+    //     console.log("123")
+    //     return --k * k * k * k * k + 1;
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // quinticInOut: function (k) {
+    //     console.log("123")
+    //     if ((k *= 2) < 1) {
+    //         return 0.5 * k * k * k * k * k;
+    //     }
+    //     return 0.5 * ((k -= 2) * k * k * k * k + 2);
+    // },
 
-    // 正弦曲线的缓动（sin(t)）
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    sinusoidalIn: function (k) {
-        return 1 - Math.cos(k * Math.PI / 2);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    sinusoidalOut: function (k) {
-        return Math.sin(k * Math.PI / 2);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    sinusoidalInOut: function (k) {
-        return 0.5 * (1 - Math.cos(Math.PI * k));
-    },
+    // // 正弦曲线的缓动（sin(t)）
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // sinusoidalIn: function (k) {
+    //     console.log("123")
+    //     return 1 - Math.cos(k * Math.PI / 2);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // sinusoidalOut: function (k) {
+    //     console.log("123")
+    //     return Math.sin(k * Math.PI / 2);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // sinusoidalInOut: function (k) {
+    //     console.log("123")
+    //     return 0.5 * (1 - Math.cos(Math.PI * k));
+    // },
 
-    // 指数曲线的缓动（2^t）
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    exponentialIn: function (k) {
-        return k === 0 ? 0 : Math.pow(1024, k - 1);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    exponentialOut: function (k) {
-        return k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    exponentialInOut: function (k) {
-        if (k === 0) {
-            return 0;
-        }
-        if (k === 1) {
-            return 1;
-        }
-        if ((k *= 2) < 1) {
-            return 0.5 * Math.pow(1024, k - 1);
-        }
-        return 0.5 * (-Math.pow(2, -10 * (k - 1)) + 2);
-    },
+    // // 指数曲线的缓动（2^t）
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // exponentialIn: function (k) {
+    //     console.log("123")
+    //     return k === 0 ? 0 : Math.pow(1024, k - 1);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // exponentialOut: function (k) {
+    //     console.log("123")
+    //     return k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // exponentialInOut: function (k) {
+    //     console.log("123")
+    //     if (k === 0) {
+    //         return 0;
+    //     }
+    //     if (k === 1) {
+    //         return 1;
+    //     }
+    //     if ((k *= 2) < 1) {
+    //         return 0.5 * Math.pow(1024, k - 1);
+    //     }
+    //     return 0.5 * (-Math.pow(2, -10 * (k - 1)) + 2);
+    // },
 
-    // 圆形曲线的缓动（sqrt(1-t^2)）
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    circularIn: function (k) {
-        return 1 - Math.sqrt(1 - k * k);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    circularOut: function (k) {
-        return Math.sqrt(1 - (--k * k));
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    circularInOut: function (k) {
-        if ((k *= 2) < 1) {
-            return -0.5 * (Math.sqrt(1 - k * k) - 1);
-        }
-        return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
-    },
+    // // 圆形曲线的缓动（sqrt(1-t^2)）
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // circularIn: function (k) {
+    //     console.log("123")
+    //     return 1 - Math.sqrt(1 - k * k);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // circularOut: function (k) {
+    //     console.log("123")
+    //     return Math.sqrt(1 - (--k * k));
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // circularInOut: function (k) {
+    //     console.log("123")
+    //     if ((k *= 2) < 1) {
+    //         return -0.5 * (Math.sqrt(1 - k * k) - 1);
+    //     }
+    //     return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
+    // },
 
-    // 创建类似于弹簧在停止前来回振荡的动画
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    elasticIn: function (k) {
-        var s;
-        var a = 0.1;
-        var p = 0.4;
-        if (k === 0) {
-            return 0;
-        }
-        if (k === 1) {
-            return 1;
-        }
-        if (!a || a < 1) {
-            a = 1;
-            s = p / 4;
-        }
-        else {
-            s = p * Math.asin(1 / a) / (2 * Math.PI);
-        }
-        return -(a * Math.pow(2, 10 * (k -= 1))
-                    * Math.sin((k - s) * (2 * Math.PI) / p));
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    elasticOut: function (k) {
-        var s;
-        var a = 0.1;
-        var p = 0.4;
-        if (k === 0) {
-            return 0;
-        }
-        if (k === 1) {
-            return 1;
-        }
-        if (!a || a < 1) {
-            a = 1;
-            s = p / 4;
-        }
-        else {
-            s = p * Math.asin(1 / a) / (2 * Math.PI);
-        }
-        return (a * Math.pow(2, -10 * k)
-                    * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    elasticInOut: function (k) {
-        var s;
-        var a = 0.1;
-        var p = 0.4;
-        if (k === 0) {
-            return 0;
-        }
-        if (k === 1) {
-            return 1;
-        }
-        if (!a || a < 1) {
-            a = 1;
-            s = p / 4;
-        }
-        else {
-            s = p * Math.asin(1 / a) / (2 * Math.PI);
-        }
-        if ((k *= 2) < 1) {
-            return -0.5 * (a * Math.pow(2, 10 * (k -= 1))
-                * Math.sin((k - s) * (2 * Math.PI) / p));
-        }
-        return a * Math.pow(2, -10 * (k -= 1))
-                * Math.sin((k - s) * (2 * Math.PI) / p) * 0.5 + 1;
+    // // 创建类似于弹簧在停止前来回振荡的动画
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // elasticIn: function (k) {
+    //     console.log("123")
+    //     var s;
+    //     var a = 0.1;
+    //     var p = 0.4;
+    //     if (k === 0) {
+    //         return 0;
+    //     }
+    //     if (k === 1) {
+    //         return 1;
+    //     }
+    //     if (!a || a < 1) {
+    //         a = 1;
+    //         s = p / 4;
+    //     }
+    //     else {
+    //         s = p * Math.asin(1 / a) / (2 * Math.PI);
+    //     }
+    //     return -(a * Math.pow(2, 10 * (k -= 1))
+    //                 * Math.sin((k - s) * (2 * Math.PI) / p));
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // elasticOut: function (k) {
+    //     console.log("123")
+    //     var s;
+    //     var a = 0.1;
+    //     var p = 0.4;
+    //     if (k === 0) {
+    //         return 0;
+    //     }
+    //     if (k === 1) {
+    //         return 1;
+    //     }
+    //     if (!a || a < 1) {
+    //         a = 1;
+    //         s = p / 4;
+    //     }
+    //     else {
+    //         s = p * Math.asin(1 / a) / (2 * Math.PI);
+    //     }
+    //     return (a * Math.pow(2, -10 * k)
+    //                 * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // elasticInOut: function (k) {
+    //     console.log("123")
+    //     var s;
+    //     var a = 0.1;
+    //     var p = 0.4;
+    //     if (k === 0) {
+    //         return 0;
+    //     }
+    //     if (k === 1) {
+    //         return 1;
+    //     }
+    //     if (!a || a < 1) {
+    //         a = 1;
+    //         s = p / 4;
+    //     }
+    //     else {
+    //         s = p * Math.asin(1 / a) / (2 * Math.PI);
+    //     }
+    //     if ((k *= 2) < 1) {
+    //         return -0.5 * (a * Math.pow(2, 10 * (k -= 1))
+    //             * Math.sin((k - s) * (2 * Math.PI) / p));
+    //     }
+    //     return a * Math.pow(2, -10 * (k -= 1))
+    //             * Math.sin((k - s) * (2 * Math.PI) / p) * 0.5 + 1;
 
-    },
+    // },
 
-    // 在某一动画开始沿指示的路径进行动画处理前稍稍收回该动画的移动
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    backIn: function (k) {
-        var s = 1.70158;
-        return k * k * ((s + 1) * k - s);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    backOut: function (k) {
-        var s = 1.70158;
-        return --k * k * ((s + 1) * k + s) + 1;
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    backInOut: function (k) {
-        var s = 1.70158 * 1.525;
-        if ((k *= 2) < 1) {
-            return 0.5 * (k * k * ((s + 1) * k - s));
-        }
-        return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
-    },
+    // // 在某一动画开始沿指示的路径进行动画处理前稍稍收回该动画的移动
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // backIn: function (k) {
+    //     console.log("123")
+    //     var s = 1.70158;
+    //     return k * k * ((s + 1) * k - s);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // backOut: function (k) {
+    //     console.log("123")
+    //     var s = 1.70158;
+    //     return --k * k * ((s + 1) * k + s) + 1;
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // backInOut: function (k) {
+    //     console.log("123")
+    //     var s = 1.70158 * 1.525;
+    //     if ((k *= 2) < 1) {
+    //         return 0.5 * (k * k * ((s + 1) * k - s));
+    //     }
+    //     return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
+    // },
 
-    // 创建弹跳效果
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    bounceIn: function (k) {
-        return 1 - easing.bounceOut(1 - k);
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    bounceOut: function (k) {
-        if (k < (1 / 2.75)) {
-            return 7.5625 * k * k;
-        }
-        else if (k < (2 / 2.75)) {
-            return 7.5625 * (k -= (1.5 / 2.75)) * k + 0.75;
-        }
-        else if (k < (2.5 / 2.75)) {
-            return 7.5625 * (k -= (2.25 / 2.75)) * k + 0.9375;
-        }
-        else {
-            return 7.5625 * (k -= (2.625 / 2.75)) * k + 0.984375;
-        }
-    },
-    /**
-    * @param {number} k
-    * @return {number}
-    */
-    bounceInOut: function (k) {
-        if (k < 0.5) {
-            return easing.bounceIn(k * 2) * 0.5;
-        }
-        return easing.bounceOut(k * 2 - 1) * 0.5 + 0.5;
-    }
+    // // 创建弹跳效果
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // bounceIn: function (k) {
+    //     console.log("123")
+    //     return 1 - easing.bounceOut(1 - k);
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // bounceOut: function (k) {
+    //     console.log("123")
+    //     if (k < (1 / 2.75)) {
+    //         return 7.5625 * k * k;
+    //     }
+    //     else if (k < (2 / 2.75)) {
+    //         return 7.5625 * (k -= (1.5 / 2.75)) * k + 0.75;
+    //     }
+    //     else if (k < (2.5 / 2.75)) {
+    //         return 7.5625 * (k -= (2.25 / 2.75)) * k + 0.9375;
+    //     }
+    //     else {
+    //         return 7.5625 * (k -= (2.625 / 2.75)) * k + 0.984375;
+    //     }
+    // },
+    // /**
+    // * @param {number} k
+    // * @return {number}
+    // */
+    // bounceInOut: function (k) {
+    //     console.log("123")
+    //     if (k < 0.5) {
+    //         return easing.bounceIn(k * 2) * 0.5;
+    //     }
+    //     return easing.bounceOut(k * 2 - 1) * 0.5 + 0.5;
+    // }
 };
 
 /**
@@ -3524,22 +3554,22 @@ Clip.prototype = {
 
     constructor: Clip,
 
-    step: function (globalTime, deltaTime) {
+    step: function (globalTime, deltaTime) {//动画每步 现在的时间 deltaTime？
         // Set startTime on first step, or _startTime may has milleseconds different between clips
         // PENDING
         if (!this._initialized) {
-            this._startTime = globalTime + this._delay;
+            this._startTime = globalTime + this._delay;//动画开始时间
             this._initialized = true;
         }
 
-        if (this._paused) {
+        if (this._paused) {//如果有暂停？
             this._pausedTime += deltaTime;
             return;
         }
 
-        var percent = (globalTime - this._startTime - this._pausedTime) / this._life;
+        var percent = (globalTime - this._startTime - this._pausedTime) / this._life;//life两个关键帧之间的时间 _pausedTime为0 ？
 
-        // 还没开始
+        // 百分比小于0 还没开始
         if (percent < 0) {
             return;
         }
@@ -3554,7 +3584,7 @@ Clip.prototype = {
 
         this.fire('frame', schedule);
 
-        // 结束
+        // 百分比等于1 结束
         if (percent === 1) {
             if (this.loop) {
                 this.restart(globalTime);
@@ -4364,7 +4394,7 @@ function defaultSetter(target, key, value) {
  * @param  {number} percent
  * @return {number}
  */
-function interpolateNumber(p0, p1, percent) {
+function interpolateNumber(p0, p1, percent) {//插值数值
     return (p1 - p0) * percent + p0;
 }
 
@@ -4379,13 +4409,13 @@ function interpolateString(p0, p1, percent) {
 }
 
 /**
- * @param  {Array} p0
- * @param  {Array} p1
- * @param  {number} percent
- * @param  {Array} out
- * @param  {number} arrDim
+ * @param  {Array} p0 //点0 [100,100] 
+ * @param  {Array} p1 //点1 [200,0]
+ * @param  {number} percent//0
+ * @param  {Array} out//[100,100]
+ * @param  {number} arrDim//1
  */
-function interpolateArray(p0, p1, percent, out, arrDim) {
+function interpolateArray(p0, p1, percent, out, arrDim) {//插值数组
     var len = p0.length;
     if (arrDim === 1) {
         for (var i = 0; i < len; i++) {
@@ -4404,8 +4434,8 @@ function interpolateArray(p0, p1, percent, out, arrDim) {
     }
 }
 
-// arr0 is source array, arr1 is target array.
-// Do some preprocess to avoid error happened when interpolating from arr0 to arr1
+// arr0 is source array, arr1 is target array. 0是源数组 1是目标数组
+// Do some preprocess to avoid error happened when interpolating from arr0 to arr1 做一些预处理 避免 数组0到1插值时出错
 function fillArr(arr0, arr1, arrDim) {
     var arr0Len = arr0.length;
     var arr1Len = arr1.length;
@@ -4558,52 +4588,54 @@ function rgba2String(rgba) {
 }
 
 function getArrayDim(keyframes) {
-    var lastValue = keyframes[keyframes.length - 1].value;
-    return isArrayLike(lastValue && lastValue[0]) ? 2 : 1;
+    var lastValue = keyframes[keyframes.length - 1].value;//最后一个
+    return isArrayLike(lastValue && lastValue[0]) ? 2 : 1;//最后一个和最后一个的第0位置都是数组 返回2
 }
 
+//keyframes [{time:0,value;[100,100]},{time:200,value;[200,0]}]
 function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, forceAnimate) {
     var getter = animator._getter;
     var setter = animator._setter;
     var useSpline = easing === 'spline';
 
+    //frame 传入两个位置时为2
     var trackLen = keyframes.length;
     if (!trackLen) {
         return;
     }
     // Guess data type
-    var firstVal = keyframes[0].value;
-    var isValueArray = isArrayLike(firstVal);
+    var firstVal = keyframes[0].value;//[100,100]
+    var isValueArray = isArrayLike(firstVal);//第一个是不是数组
     var isValueColor = false;
     var isValueString = false;
 
     // For vertices morphing
-    var arrDim = isValueArray ? getArrayDim(keyframes) : 0;
+    var arrDim = isValueArray ? getArrayDim(keyframes) : 0;//是数组 返回getArrayDim(keyframes)
 
     var trackMaxTime;
-    // Sort keyframe as ascending
+    // Sort keyframe as ascending 按time排序
     keyframes.sort(function (a, b) {
         return a.time - b.time;
     });
 
-    trackMaxTime = keyframes[trackLen - 1].time;
-    // Percents of each keyframe
+    trackMaxTime = keyframes[trackLen - 1].time;//最大时间是多少
+    // Percents of each keyframe 关键帧占总时间的比例数组
     var kfPercents = [];
-    // Value of each keyframe
+    // Value of each keyframe 关键帧的值
     var kfValues = [];
-    var prevValue = keyframes[0].value;
+    var prevValue = keyframes[0].value;//准备值
     var isAllValueEqual = true;
     for (var i = 0; i < trackLen; i++) {
         kfPercents.push(keyframes[i].time / trackMaxTime);
         // Assume value is a color when it is a string
         var value = keyframes[i].value;
 
-        // Check if value is equal, deep check if value is array
+        // Check if value is equal, deep check if value is array 比较这一次和上一次value
         if (!((isValueArray && isArraySame(value, prevValue, arrDim))
             || (!isValueArray && value === prevValue))) {
             isAllValueEqual = false;
         }
-        prevValue = value;
+        prevValue = value;//记录上一次value
 
         // Try converting a string to a color array
         if (typeof value === 'string') {
@@ -4618,15 +4650,15 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         }
         kfValues.push(value);
     }
-    if (!forceAnimate && isAllValueEqual) {
+    if (!forceAnimate && isAllValueEqual) {//value和上次相同时return
         return;
     }
 
-    var lastValue = kfValues[trackLen - 1];
-    // Polyfill array and NaN value
+    var lastValue = kfValues[trackLen - 1];//最后一个value
+    // Polyfill array and NaN value 
     for (var i = 0; i < trackLen - 1; i++) {
         if (isValueArray) {
-            fillArr(kfValues[i], lastValue, arrDim);
+            fillArr(kfValues[i], lastValue, arrDim);//所有的数组数据 以最后一个关键帧为基准
         }
         else {
             if (isNaN(kfValues[i]) && !isNaN(lastValue) && !isValueString && !isValueColor) {
@@ -4634,14 +4666,14 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
             }
         }
     }
-    isValueArray && fillArr(getter(animator._target, propName), lastValue, arrDim);
+    isValueArray && fillArr(getter(animator._target, propName), lastValue, arrDim);//动画位于100，100 目标 200，0 让animator._target也和最后一帧数据一致
 
-    // Cache the key of last frame to speed up when
+    // Cache the key of last frame to speed up when 缓存以后一帧的frame 以便动画顺序播放时加速
     // animation playback is sequency
     var lastFrame = 0;
     var lastFramePercent = 0;
     var start;
-    var w;
+    var w;//？
     var p0;
     var p1;
     var p2;
@@ -4654,7 +4686,7 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
     var onframe = function (target, percent) {
         // Find the range keyframes
         // kf1-----kf2---------current--------kf3
-        // find kf2 and kf3 and do interpolation
+        // find kf2 and kf3 and do interpolation 当前在关键帧2和3之间 做插值
         var frame;
         // In the easing function like elasticOut, percent may less than 0
         if (percent < 0) {
@@ -4683,14 +4715,14 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         lastFrame = frame;
         lastFramePercent = percent;
 
-        var range = (kfPercents[frame + 1] - kfPercents[frame]);
+        var range = (kfPercents[frame + 1] - kfPercents[frame]);//两个关键帧之间的比例差 0.25
         if (range === 0) {
             return;
         }
         else {
-            w = (percent - kfPercents[frame]) / range;
+            w = (percent - kfPercents[frame]) / range;//w
         }
-        if (useSpline) {
+        if (useSpline) {//spline是样条,是一种分段光滑的多项式,
             p1 = kfValues[frame];
             p0 = kfValues[frame === 0 ? frame : frame - 1];
             p2 = kfValues[frame > trackLen - 2 ? trackLen - 1 : frame + 1];
@@ -4765,12 +4797,12 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         life: trackMaxTime,
         loop: animator._loop,
         delay: animator._delay,
-        onframe: onframe,
+        onframe: onframe,//传递一个闭包
         ondestroy: oneTrackDone
     });
 
     if (easing && easing !== 'spline') {
-        clip.easing = easing;
+        clip.easing = easing;//clip的easing属性被赋值
     }
 
     return clip;
@@ -4811,7 +4843,7 @@ Animator.prototype = {
      * @param  {Object} props 关键帧的属性值，key-value表示
      * @return {module:zrender/animation/Animator}
      */
-    when: function (time /* ms */, props) {
+    when: function (time /* ms */, props) {//when 方法
         var tracks = this._tracks;
         for (var propName in props) {
             if (!props.hasOwnProperty(propName)) {
@@ -4891,7 +4923,7 @@ Animator.prototype = {
      * @param  {boolean} forceAnimate
      * @return {module:zrender/animation/Animator}
      */
-    start: function (easing, forceAnimate) {
+    start: function (easing, forceAnimate) {//start方法
 
         var self = this;
         var clipCount = 0;
@@ -4908,12 +4940,12 @@ Animator.prototype = {
             if (!this._tracks.hasOwnProperty(propName)) {
                 continue;
             }
-            var clip = createTrackClip(
+            var clip = createTrackClip(//创建clip
                 this, easing, oneTrackDone,
                 this._tracks[propName], propName, forceAnimate
             );
             if (clip) {
-                this._clipList.push(clip);
+                this._clipList.push(clip);//加入到_clipList
                 clipCount++;
 
                 // If start after added to animation
@@ -4972,7 +5004,7 @@ Animator.prototype = {
         return this;
     },
     /**
-     * Add callback for animation end
+     * Add callback for animation end 动画结束回调
      * @param  {Function} cb
      * @return {module:zrender/animation/Animator}
      */
@@ -5044,7 +5076,7 @@ Animatable.prototype = {
      * 动画
      *
      * @param {string} path The path to fetch value from object, like 'a.b.c'.
-     * @param {boolean} [loop] Whether to loop animation.
+     * @param {boolean} [loop] Whether to loop animation. 循环动画
      * @return {module:zrender/animation/Animator}
      * @example:
      *     el.animate('style', false)
@@ -5072,7 +5104,7 @@ Animatable.prototype = {
                 target = prop;
             }
         }
-        else {
+        else {//无path 
             target = el;
         }
 
@@ -5086,12 +5118,12 @@ Animatable.prototype = {
             return;
         }
 
-        var animators = el.animators;
+        var animators = el.animators;//animators对象
 
-        var animator = new Animator(target, loop);
+        var animator = new Animator(target, loop);//新建animator 无path target是el abunatable
 
         animator.during(function (target) {
-            el.dirty(animatingShape);
+            el.dirty(animatingShape);//无path animatingShape为false
         })
         .done(function () {
             // FIXME Animator will not be removed if use `Animator#stop` to stop animation
@@ -5105,7 +5137,7 @@ Animatable.prototype = {
             zr.animation.addAnimator(animator);
         }
 
-        return animator;
+        return animator;//返回新建animator
     },
 
     /**
@@ -10807,9 +10839,9 @@ Animation.prototype = {
         animator.animation = null;
     },
 
-    _update: function () {
-        var time = new Date().getTime() - this._pausedTime;
-        var delta = time - this._time;
+    _update: function () {//更新
+        var time = new Date().getTime() - this._pausedTime;//不考虑暂停 _pausedTime为0
+        var delta = time - this._time;//间隔时间
         var clips = this._clips;
         var len = clips.length;
 
@@ -10850,8 +10882,8 @@ Animation.prototype = {
         // 'frame' should be triggered before stage, because upper application
         // depends on the sequence (e.g., echarts-stream and finish
         // event judge)
-        this.trigger('frame', delta);
-
+        this.trigger('frame', delta);//'frame'应在stage前触发
+        
         if (this.stage.update) {
             this.stage.update();
         }
@@ -11722,7 +11754,7 @@ ZRender.prototype = {
     },
 
     /**
-     * Repaint the canvas immediately
+     * Repaint the canvas immediately 重绘canvas
      */
     refreshImmediately: function () {
         // var start = new Date();
@@ -18459,7 +18491,7 @@ ClippathManager.prototype.updateDom = function (
             // New <clipPath>
             id = 'zr' + this._zrId + '-clip-' + this.nextId;
             ++this.nextId;
-            clipPathEl = this.createElement('clipPath');
+            clipPathEl = this.createElement('clippath');
             clipPathEl.setAttribute('id', id);
             defs.appendChild(clipPathEl);
 
@@ -18829,11 +18861,16 @@ var SVGPainter = function (root, storage, opts, zrId) {
     this.storage = storage;
     this._opts = opts = extend({}, opts || {});
 
-    var svgRoot = createElement('svg');
-    svgRoot.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    svgRoot.setAttribute('version', '1.1');
-    svgRoot.setAttribute('baseProfile', 'full');
-    svgRoot.style.cssText = 'user-select:none;position:absolute;left:0;top:0;';
+    var svgDom = createElement('svg');
+    svgDom.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svgDom.setAttribute('version', '1.1');
+    svgDom.setAttribute('baseProfile', 'full');
+    svgDom.style.cssText = 'user-select:none;position:absolute;left:0;top:0;';
+
+    var bgRoot = createElement('g');
+    svgDom.appendChild(bgRoot);
+    var svgRoot = createElement('g');
+    svgDom.appendChild(svgRoot);
 
     this.gradientManager = new GradientManager(zrId, svgRoot);
     this.clipPathManager = new ClippathManager(zrId, svgRoot);
@@ -18842,11 +18879,13 @@ var SVGPainter = function (root, storage, opts, zrId) {
     var viewport = document.createElement('div');
     viewport.style.cssText = 'overflow:hidden;position:relative';
 
+    this._svgDom = svgDom;
     this._svgRoot = svgRoot;
+    this._backgroundRoot = bgRoot;
     this._viewport = viewport;
 
     root.appendChild(viewport);
-    viewport.appendChild(svgRoot);
+    viewport.appendChild(svgDom);
 
     this.resize(opts.width, opts.height);
 
@@ -18863,6 +18902,14 @@ SVGPainter.prototype = {
 
     getViewportRoot: function () {
         return this._viewport;
+    },
+
+    getSvgDom: function () {
+        return this._svgDom;
+    },
+
+    getSvgRoot: function () {
+        return this._svgRoot;
     },
 
     getViewportRootOffset: function () {
@@ -18884,7 +18931,21 @@ SVGPainter.prototype = {
 
     setBackgroundColor: function (backgroundColor) {
         // TODO gradient
-        this._viewport.style.background = backgroundColor;
+        // Insert a bg rect instead of setting background to viewport.
+        // Otherwise, the exported SVG don't have background.
+        if (this._backgroundRoot && this._backgroundNode) {
+            this._backgroundRoot.removeChild(this._backgroundNode);
+        }
+
+        var bgNode = createElement('rect');
+        bgNode.setAttribute('width', this.getWidth());
+        bgNode.setAttribute('height', this.getHeight());
+        bgNode.setAttribute('x', 0);
+        bgNode.setAttribute('y', 0);
+        bgNode.setAttribute('id', 0);
+        bgNode.style.fill = backgroundColor;
+        this._backgroundRoot.appendChild(bgNode);
+        this._backgroundNode = bgNode;
     },
 
     _paintList: function (list) {
@@ -19014,8 +19075,8 @@ SVGPainter.prototype = {
     },
 
     _getDefs: function (isForceCreating) {
-        var svgRoot = this._svgRoot;
-        var defs = this._svgRoot.getElementsByTagName('defs');
+        var svgRoot = this._svgDom;
+        var defs = svgRoot.getElementsByTagName('defs');
         if (defs.length === 0) {
             // Not exist
             if (isForceCreating) {
@@ -19072,10 +19133,15 @@ SVGPainter.prototype = {
             viewportStyle.width = width + 'px';
             viewportStyle.height = height + 'px';
 
-            var svgRoot = this._svgRoot;
+            var svgRoot = this._svgDom;
             // Set width by 'svgRoot.width = width' is invalid
             svgRoot.setAttribute('width', width);
             svgRoot.setAttribute('height', height);
+        }
+
+        if (this._backgroundNode) {
+            this._backgroundNode.setAttribute('width', width);
+            this._backgroundNode.setAttribute('height', height);
         }
     },
 
@@ -19118,10 +19184,13 @@ SVGPainter.prototype = {
     dispose: function () {
         this.root.innerHTML = '';
 
-        this._svgRoot =
-            this._viewport =
-            this.storage =
-            null;
+        this._svgRoot
+            = this._backgroundRoot
+            = this._svgDom
+            = this._backgroundNode
+            = this._viewport
+            = this.storage
+            = null;
     },
 
     clear: function () {
@@ -19130,9 +19199,9 @@ SVGPainter.prototype = {
         }
     },
 
-    pathToDataUrl: function () {
+    toDataURL: function () {
         this.refresh();
-        var html = this._svgRoot.outerHTML;
+        var html = encodeURIComponent(this._svgDom.outerHTML.replace(/></g, '>\n\r<'));
         return 'data:image/svg+xml;charset=UTF-8,' + html;
     }
 };
@@ -19148,7 +19217,7 @@ function createMethodNotSupport(method) {
 each([
     'getLayer', 'insertLayer', 'eachLayer', 'eachBuiltinLayer',
     'eachOtherLayer', 'getLayers', 'modLayer', 'delLayer', 'clearLayer',
-    'toDataURL', 'pathToImage'
+    'pathToImage'
 ], function (name) {
     SVGPainter.prototype[name] = createMethodNotSupport(name);
 });

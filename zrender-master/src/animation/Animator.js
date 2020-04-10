@@ -22,7 +22,7 @@ function defaultSetter(target, key, value) {
  * @param  {number} percent
  * @return {number}
  */
-function interpolateNumber(p0, p1, percent) {
+function interpolateNumber(p0, p1, percent) {//插值数值
     return (p1 - p0) * percent + p0;
 }
 
@@ -37,13 +37,13 @@ function interpolateString(p0, p1, percent) {
 }
 
 /**
- * @param  {Array} p0
- * @param  {Array} p1
- * @param  {number} percent
- * @param  {Array} out
- * @param  {number} arrDim
+ * @param  {Array} p0 //点0 [100,100] 
+ * @param  {Array} p1 //点1 [200,0]
+ * @param  {number} percent//0
+ * @param  {Array} out//[100,100]
+ * @param  {number} arrDim//1
  */
-function interpolateArray(p0, p1, percent, out, arrDim) {
+function interpolateArray(p0, p1, percent, out, arrDim) {//插值数组
     var len = p0.length;
     if (arrDim === 1) {
         for (var i = 0; i < len; i++) {
@@ -62,8 +62,8 @@ function interpolateArray(p0, p1, percent, out, arrDim) {
     }
 }
 
-// arr0 is source array, arr1 is target array.
-// Do some preprocess to avoid error happened when interpolating from arr0 to arr1
+// arr0 is source array, arr1 is target array. 0是源数组 1是目标数组
+// Do some preprocess to avoid error happened when interpolating from arr0 to arr1 做一些预处理 避免 数组0到1插值时出错
 function fillArr(arr0, arr1, arrDim) {
     var arr0Len = arr0.length;
     var arr1Len = arr1.length;
@@ -216,52 +216,54 @@ function rgba2String(rgba) {
 }
 
 function getArrayDim(keyframes) {
-    var lastValue = keyframes[keyframes.length - 1].value;
-    return isArrayLike(lastValue && lastValue[0]) ? 2 : 1;
+    var lastValue = keyframes[keyframes.length - 1].value;//最后一个
+    return isArrayLike(lastValue && lastValue[0]) ? 2 : 1;//最后一个和最后一个的第0位置都是数组 返回2
 }
 
+//keyframes [{time:0,value;[100,100]},{time:200,value;[200,0]}]
 function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, forceAnimate) {
     var getter = animator._getter;
     var setter = animator._setter;
     var useSpline = easing === 'spline';
 
+    //frame 传入两个位置时为2
     var trackLen = keyframes.length;
     if (!trackLen) {
         return;
     }
     // Guess data type
-    var firstVal = keyframes[0].value;
-    var isValueArray = isArrayLike(firstVal);
+    var firstVal = keyframes[0].value;//[100,100]
+    var isValueArray = isArrayLike(firstVal);//第一个是不是数组
     var isValueColor = false;
     var isValueString = false;
 
     // For vertices morphing
-    var arrDim = isValueArray ? getArrayDim(keyframes) : 0;
+    var arrDim = isValueArray ? getArrayDim(keyframes) : 0;//是数组 返回getArrayDim(keyframes)
 
     var trackMaxTime;
-    // Sort keyframe as ascending
+    // Sort keyframe as ascending 按time排序
     keyframes.sort(function (a, b) {
         return a.time - b.time;
     });
 
-    trackMaxTime = keyframes[trackLen - 1].time;
-    // Percents of each keyframe
+    trackMaxTime = keyframes[trackLen - 1].time;//最大时间是多少
+    // Percents of each keyframe 关键帧占总时间的比例数组
     var kfPercents = [];
-    // Value of each keyframe
+    // Value of each keyframe 关键帧的值
     var kfValues = [];
-    var prevValue = keyframes[0].value;
+    var prevValue = keyframes[0].value;//准备值
     var isAllValueEqual = true;
     for (var i = 0; i < trackLen; i++) {
         kfPercents.push(keyframes[i].time / trackMaxTime);
         // Assume value is a color when it is a string
         var value = keyframes[i].value;
 
-        // Check if value is equal, deep check if value is array
+        // Check if value is equal, deep check if value is array 比较这一次和上一次value
         if (!((isValueArray && isArraySame(value, prevValue, arrDim))
             || (!isValueArray && value === prevValue))) {
             isAllValueEqual = false;
         }
-        prevValue = value;
+        prevValue = value;//记录上一次value
 
         // Try converting a string to a color array
         if (typeof value === 'string') {
@@ -276,15 +278,15 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         }
         kfValues.push(value);
     }
-    if (!forceAnimate && isAllValueEqual) {
+    if (!forceAnimate && isAllValueEqual) {//value和上次相同时return
         return;
     }
 
-    var lastValue = kfValues[trackLen - 1];
-    // Polyfill array and NaN value
+    var lastValue = kfValues[trackLen - 1];//最后一个value
+    // Polyfill array and NaN value 
     for (var i = 0; i < trackLen - 1; i++) {
         if (isValueArray) {
-            fillArr(kfValues[i], lastValue, arrDim);
+            fillArr(kfValues[i], lastValue, arrDim);//所有的数组数据 以最后一个关键帧为基准
         }
         else {
             if (isNaN(kfValues[i]) && !isNaN(lastValue) && !isValueString && !isValueColor) {
@@ -292,14 +294,14 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
             }
         }
     }
-    isValueArray && fillArr(getter(animator._target, propName), lastValue, arrDim);
+    isValueArray && fillArr(getter(animator._target, propName), lastValue, arrDim);//动画位于100，100 目标 200，0 让animator._target也和最后一帧数据一致
 
-    // Cache the key of last frame to speed up when
+    // Cache the key of last frame to speed up when 缓存以后一帧的frame 以便动画顺序播放时加速
     // animation playback is sequency
     var lastFrame = 0;
     var lastFramePercent = 0;
     var start;
-    var w;
+    var w;//？
     var p0;
     var p1;
     var p2;
@@ -312,7 +314,7 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
     var onframe = function (target, percent) {
         // Find the range keyframes
         // kf1-----kf2---------current--------kf3
-        // find kf2 and kf3 and do interpolation
+        // find kf2 and kf3 and do interpolation 当前在关键帧2和3之间 做插值
         var frame;
         // In the easing function like elasticOut, percent may less than 0
         if (percent < 0) {
@@ -341,14 +343,14 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         lastFrame = frame;
         lastFramePercent = percent;
 
-        var range = (kfPercents[frame + 1] - kfPercents[frame]);
+        var range = (kfPercents[frame + 1] - kfPercents[frame]);//两个关键帧之间的比例差 0.25
         if (range === 0) {
             return;
         }
         else {
-            w = (percent - kfPercents[frame]) / range;
+            w = (percent - kfPercents[frame]) / range;//w
         }
-        if (useSpline) {
+        if (useSpline) {//spline是样条,是一种分段光滑的多项式,
             p1 = kfValues[frame];
             p0 = kfValues[frame === 0 ? frame : frame - 1];
             p2 = kfValues[frame > trackLen - 2 ? trackLen - 1 : frame + 1];
@@ -423,12 +425,12 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         life: trackMaxTime,
         loop: animator._loop,
         delay: animator._delay,
-        onframe: onframe,
+        onframe: onframe,//传递一个闭包
         ondestroy: oneTrackDone
     });
 
     if (easing && easing !== 'spline') {
-        clip.easing = easing;
+        clip.easing = easing;//clip的easing属性被赋值
     }
 
     return clip;
@@ -469,7 +471,7 @@ Animator.prototype = {
      * @param  {Object} props 关键帧的属性值，key-value表示
      * @return {module:zrender/animation/Animator}
      */
-    when: function (time /* ms */, props) {
+    when: function (time /* ms */, props) {//when 方法
         var tracks = this._tracks;
         for (var propName in props) {
             if (!props.hasOwnProperty(propName)) {
@@ -549,7 +551,7 @@ Animator.prototype = {
      * @param  {boolean} forceAnimate
      * @return {module:zrender/animation/Animator}
      */
-    start: function (easing, forceAnimate) {
+    start: function (easing, forceAnimate) {//start方法
 
         var self = this;
         var clipCount = 0;
@@ -566,12 +568,12 @@ Animator.prototype = {
             if (!this._tracks.hasOwnProperty(propName)) {
                 continue;
             }
-            var clip = createTrackClip(
+            var clip = createTrackClip(//创建clip
                 this, easing, oneTrackDone,
                 this._tracks[propName], propName, forceAnimate
             );
             if (clip) {
-                this._clipList.push(clip);
+                this._clipList.push(clip);//加入到_clipList
                 clipCount++;
 
                 // If start after added to animation
@@ -630,7 +632,7 @@ Animator.prototype = {
         return this;
     },
     /**
-     * Add callback for animation end
+     * Add callback for animation end 动画结束回调
      * @param  {Function} cb
      * @return {module:zrender/animation/Animator}
      */
