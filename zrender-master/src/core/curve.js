@@ -410,10 +410,10 @@ export function quadraticExtremum(p0, p1, p2) {
 /**
  * 细分二次贝塞尔曲线
  * @memberOf module:zrender/core/curve
- * @param  {number} p0
- * @param  {number} p1
- * @param  {number} p2
- * @param  {number} t
+ * @param  {number} p0 第一个点
+ * @param  {number} p1 一个控制点
+ * @param  {number} p2 第二个点
+ * @param  {number} t 百分比
  * @param  {Array.<number>} out
  */
 export function quadraticSubdivide(p0, p1, p2, t, out) {
@@ -423,8 +423,8 @@ export function quadraticSubdivide(p0, p1, p2, t, out) {
 
     // Seg0
     out[0] = p0;
-    out[1] = p01;
-    out[2] = p012;
+    out[1] = p01;//新控 为啥呢 其实这个画贝塞尔过程 也是控制点的一个插值过程
+    out[2] = p012;//新x
 
     // Seg1
     out[3] = p012;
@@ -432,7 +432,7 @@ export function quadraticSubdivide(p0, p1, p2, t, out) {
     out[5] = p2;
 }
 
-/**
+/**！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
  * 投射点到二次贝塞尔曲线上，返回投射距离。
  * 投射点有可能会有一个或者多个，这里只返回其中距离最短的一个。
  * @param {number} x0

@@ -57,7 +57,7 @@ export default Path.extend({
 
         ctx.moveTo(x1, y1);
 
-        if (percent < 1) {
+        if (percent < 1) {//折线的插值
             x2 = x1 * (1 - percent) + x2 * percent;
             y2 = y1 * (1 - percent) + y2 * percent;
         }
