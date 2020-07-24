@@ -19,6 +19,16 @@ function run() {
      * (2) `node ./build/build.js --help` will print helper info and exit.
      */
 
+
+    //commander
+    // /node_modules/commander/index.js
+    // function Option(flags, description)
+    //“~”运算符（位非）用于对一个二进制操作数逐位进行取反操作。
+    //indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。
+    //require
+    //https://javascript.ruanyifeng.com/nodejs/module.html
+    //
+
     commander
         .usage('[options]')
         .description('Build zrender and generate result files in directory `zrender/dist` ')

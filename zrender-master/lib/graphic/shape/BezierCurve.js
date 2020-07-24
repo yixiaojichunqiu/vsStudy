@@ -61,10 +61,11 @@ var _default = Path.extend({
       return;
     }
 
-    ctx.moveTo(x1, y1);
+    ctx.moveTo(x1, y1); //只有一个控制点时
 
     if (cpx2 == null || cpy2 == null) {
       if (percent < 1) {
+        //进度不为1时
         quadraticSubdivide(x1, cpx1, x2, percent, out);
         cpx1 = out[1];
         x2 = out[2];
