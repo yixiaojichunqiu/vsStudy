@@ -684,10 +684,20 @@ function asc(arr) {
  */
 function quantile(ascArr, p) {
     var H = (ascArr.length - 1) * p + 1;
+    //(20-1)*0.25+1=5.75
+
     var h = Math.floor(H);
+    //5
+
     var v = +ascArr[h - 1];
+    //对应的数 1-20里的 第5位
+
     var e = H - h;
+    //所在位 - 向下取整后的所在位 
+
     return e ? v + e * (ascArr[h] - v) : v;
+    //e为0 则就是v 不为0时 
+    //加1所在位值 - 所在位值 之后 乘以 e 之后加所在位值
 }
 
 /**
@@ -778,6 +788,8 @@ var prepareBoxplotData = function (rawData, opt) {
 
     for (var i = 0; i < rawData.length; i++) {
         axisData.push(i + '');
+
+        //拆开 排序 从小到大
         var ascList = asc(rawData[i].slice());
 
         var Q1 = quantile(ascList, 0.25);
@@ -797,6 +809,7 @@ var prepareBoxplotData = function (rawData, opt) {
 
         boxData.push([low, Q1, Q2, Q3, high]);
 
+        //离散值
         for (var j = 0; j < ascList.length; j++) {
             var dataItem = ascList[j];
             if (dataItem < low || dataItem > high) {

@@ -74,7 +74,8 @@ function _default(rawData, opt) {
   var useExtreme = boundIQR === 'none' || boundIQR === 0;
 
   for (var i = 0; i < rawData.length; i++) {
-    axisData.push(i + '');
+    axisData.push(i + ''); //拆开 排序 从小到大
+
     var ascList = numberUtil.asc(rawData[i].slice());
     var Q1 = numberUtil.quantile(ascList, 0.25);
     var Q2 = numberUtil.quantile(ascList, 0.5);
@@ -84,7 +85,7 @@ function _default(rawData, opt) {
     var bound = (boundIQR == null ? 1.5 : boundIQR) * (Q3 - Q1);
     var low = useExtreme ? min : Math.max(min, Q1 - bound);
     var high = useExtreme ? max : Math.min(max, Q3 + bound);
-    boxData.push([low, Q1, Q2, Q3, high]);
+    boxData.push([low, Q1, Q2, Q3, high]); //离散值
 
     for (var j = 0; j < ascList.length; j++) {
       var dataItem = ascList[j];
