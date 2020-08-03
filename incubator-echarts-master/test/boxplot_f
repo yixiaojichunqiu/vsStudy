@@ -1,0 +1,69 @@
+[
+    [850, 740, 900, 1070, 930, 850, 950, 980, 980, 880, 1000, 980, 930, 650, 760, 810, 1000, 1000, 960, 960],
+    [960, 940, 960, 940, 880, 800, 850, 880, 900, 840, 830, 790, 810, 880, 880, 830, 800, 790, 760, 800],
+    [880, 880, 880, 860, 720, 720, 620, 860, 970, 950, 880, 910, 850, 870, 840, 840, 850, 840, 840, 840],
+    [890, 810, 810, 820, 800, 770, 760, 740, 750, 760, 910, 920, 890, 860, 880, 720, 840, 850, 850, 780],
+    [890, 840, 780, 810, 760, 810, 790, 810, 820, 850, 870, 870, 810, 740, 810, 940, 950, 800, 810, 870]
+]
+
+function quantile(ascArr, p) {
+    var H = (ascArr.length - 1) * p + 1;//(20-1)*0.25+1=5.75
+    var h = Math.floor(H);//5
+    var v = +ascArr[h - 1];//对应的数 1-20里的 第5位
+    var e = H - h;//所在位 - 向下取整后的所在位 
+    return e ? v + e * (ascArr[h] - v) : v;//e为0 则就是v 不为0时 
+    //加1所在位值 - 所在位值 之后 乘以 e 之后加所在位值
+}
+
+0.25
+0.75
+
+0.5 偶数 所在位 加1所在位 乘以0.5 效果和上一样
+    奇数 所在位                效果和上一样
+
+var Q1 = quantile(ascList, 0.25);
+var Q2 = quantile(ascList, 0.5);
+var Q3 = quantile(ascList, 0.75);
+var min = ascList[0];
+var max = ascList[ascList.length - 1];
+
+我们的 (boundIQR == null ? 1.5 : boundIQR) 默认1.5
+
+ll = Q1-1.5*(Q3 - Q1)
+hh = Q3+1.5*(Q3 - Q1)
+
+
+var low  = useExtreme ? min : Math.max(min, ll); ll和最小值 之中取大的
+var high = useExtreme ? max : Math.min(max, hh); hh和最大值 之中取小的
+我们的 默认useExtreme 为false
+
+boxData.push([low, Q1, Q2, Q3, high]); 都有了
+
+异常值
+for (var j = 0; j < ascList.length; j++) {
+    var dataItem = ascList[j];
+    if (dataItem < low || dataItem > high) {
+        var outlier = [i, dataItem];
+        opt.layout === 'vertical' && outlier.reverse();
+        outliers.push(outlier);
+     }
+}
+
+
+[0,650]
+[2,620]
+[2,720]
+[2,720]
+[2,950]
+
+calculateMean 算平均值
+
+一组里 0个数据时 数组越界需要处理下 index有-1  需要判断数据 不去画
+一组里 1个数据时 按上述算法 所有值都是一个 会变成一条线
+一组里 多个数据时 正常
+
+全部的最大最小值
+按目前规则
+单组里的离散点 和 上下线 都不会越过 本组的最大最小值
+所以 所有的最小值 最大值 足以放下 然后在和之前线图类似 向上向下取整
+

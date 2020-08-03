@@ -79,7 +79,7 @@ under the License.
                     data = prepareBoxplotData(rawData, {
                         layout: layout
                     });
-                    mean = calculateMean(rawData);
+                    //mean = calculateMean(rawData);//平均值
 
                     var categoryAxis = {
                         type: 'category',
@@ -144,77 +144,7 @@ under the License.
                             {
                                 name: 'boxplot',
                                 type: 'boxplot',
-                                data: data.boxData,
-
-                                markPoint: {
-                                    data: [
-                                        {
-                                            name: '某个坐标',
-                                            coord: [2, 300]
-                                        },
-                                        {
-                                            name: '某个屏幕坐标',
-                                            x: 100,
-                                            y: 200,
-                                            label: {
-                                                normal: {
-                                                    show: false,
-                                                    formatter: 'asdf'
-                                                },
-                                                emphasis: {
-                                                    show: true,
-                                                    position: 'top',
-                                                    formatter: 'zxcv'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            name: 'max value (default)',
-                                            type: 'max'
-                                        },
-                                        {
-                                            name: 'min value (default)',
-                                            type: 'min'
-                                        },
-                                        {
-                                            name: 'max value (dim:Q1)',
-                                            type: 'max',
-                                            valueDim: 'Q1'
-                                        },
-                                        {
-                                            name: 'average value (dim:Q1)',
-                                            type: 'average',
-                                            valueDim: 'Q1'
-                                        }
-                                    ]
-                                },
-
-                                markLine: {
-                                    data: [
-                                        [
-                                            {name: '两个坐标之间的标线', coord: [1, 240]},
-                                            {coord: [2, 260]}
-                                        ],
-                                        [
-                                            {name: '两个屏幕坐标之间的标线', x: 50, y: 60},
-                                            {x: 70, y: 90}
-                                        ],
-                                        [
-                                            {name: 'max - min', type: 'max'},
-                                            {type: 'min'}
-                                        ],
-                                        {
-                                            name: 'min line',
-                                            type: 'min'
-                                        },
-                                        {
-                                            name: 'max line on dim:Q3',
-                                            type: 'max',
-                                            valueDim: 'Q3'
-                                        }
-                                    ]
-                                }
-
+                                data: data.boxData
                             },
                             {
                                 name: 'outlier',

@@ -55,6 +55,8 @@ export default function (rawData, opt) {
 
     for (var i = 0; i < rawData.length; i++) {
         axisData.push(i + '');
+
+        //拆开 排序 从小到大
         var ascList = numberUtil.asc(rawData[i].slice());
 
         var Q1 = numberUtil.quantile(ascList, 0.25);
@@ -74,6 +76,7 @@ export default function (rawData, opt) {
 
         boxData.push([low, Q1, Q2, Q3, high]);
 
+        //离散值
         for (var j = 0; j < ascList.length; j++) {
             var dataItem = ascList[j];
             if (dataItem < low || dataItem > high) {
