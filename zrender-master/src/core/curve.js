@@ -65,6 +65,8 @@ export function cubicDerivativeAt(p0, p1, p2, p3, t) {
 
 /**
  * 计算三次贝塞尔方程根，使用盛金公式
+ * 用数据测试了下 应该是在解3次方程 根据x 反求t 但是好像有些问题 需要进一步看源码
+ * 除此之外 牛顿迭代法 二分法 也是解决方案
  * @memberOf module:zrender/core/curve
  * @param  {number} p0
  * @param  {number} p1
@@ -417,9 +419,9 @@ export function quadraticExtremum(p0, p1, p2) {
  * @param  {Array.<number>} out
  */
 export function quadraticSubdivide(p0, p1, p2, t, out) {
-    var p01 = (p1 - p0) * t + p0;
-    var p12 = (p2 - p1) * t + p1;
-    var p012 = (p12 - p01) * t + p01;
+    var p01 = (p1 - p0) * t + p0;//p0到p1 对应百分比t的点 q0
+    var p12 = (p2 - p1) * t + p1;//p1到p2 对应百分比t的点 q1
+    var p012 = (p12 - p01) * t + p01;//q0 到 q1连线 对应百分比t的点 是线上的点
 
     // Seg0
     out[0] = p0;
