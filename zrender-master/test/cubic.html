@@ -15,12 +15,16 @@
         function initCubic() {
             var dom = document.getElementById('cubic');
             var ctx = dom.getContext('2d');
-            var p = [120.481, 235.242, 120.481, 235.242, 289.27, -169.589, 108.534, 101.57];
-            // var p = [100, 20, 200, 300, 300, -100, 400, 200];
+            var p = [120, 120, 180, 260, 180, 360, 350, 120];
             dom.onmousemove = function(e) {
                 var roots = [];
                 var projection = [];
-                curve.cubicRootAt(0, 0.5, 1, 1, 0.568, roots);
+
+                //roots 根据x或y 反算t 可能算出多个
+                // curve.cubicRootAt(p[1], p[3], p[5], p[7], e.offsetY, roots);
+                curve.cubicRootAt(p[0], p[2] ,p[4], p[6], e.offsetX, roots);
+
+                //投射点到三次贝塞尔曲线上，返回投射距离
                 curve.cubicProjectPoint(
                     p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],
                     e.offsetX, e.offsetY, projection
@@ -28,19 +32,29 @@
                 ctx.clearRect(0, 0, dom.width, dom.height);
                 drawBezier();
                 ctx.lineWidth = 1;
-                ctx.moveTo(0, e.offsetY);
-                ctx.lineTo(1000, e.offsetY);
+
+                //画横线
+                //ctx.moveTo(0, e.offsetY);
+                //ctx.lineTo(1000, e.offsetY);
                 ctx.stroke();
                 for (var i = 0; i < roots.length; i++) {
+                    //根据t求x
                     var x = curve.cubicAt(p[0], p[2], p[4], p[6], roots[i]);
+                    //根据t求y
+                    var y = curve.cubicAt(p[1], p[3], p[5], p[7], roots[i]);
+                    //填充颜色 红色
                     ctx.fillStyle = 'red';
+                    //开始个path
                     ctx.beginPath();
-                    ctx.arc(x, e.offsetY, 5, 0, Math.PI * 2, true);
+                    //画圆点 圆心 半径 开始角度 结束角度
+                    ctx.arc(x, y, 5, 0, Math.PI * 2, true);
+                    //填充
                     ctx.fill();
                 }
 
-                ctx.moveTo(projection[0], projection[1]);
-                ctx.lineTo(e.offsetX, e.offsetY);
+                //画线 投射到贝塞尔曲线上的点 到 鼠标现在的点
+                //ctx.moveTo(projection[0], projection[1]);
+                //ctx.lineTo(e.offsetX, e.offsetY);
                 ctx.stroke();
             }
 
