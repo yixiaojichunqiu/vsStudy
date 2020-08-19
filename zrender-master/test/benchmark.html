@@ -8,31 +8,10 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body style="margin:0px;">
-
-
-    <div style="text-align: right">
-        <input type="button" onclick="setParam(['with-text'], '')" value="No Text"/>
-        <input type="button" onclick="setParam(['with-text'], 'with-text')" value="Has Text"/>
-        <input type="button" onclick="setParam(['canvas', 'svg'], 'canvas')" value="Canvas"/>
-        <input type="button" onclick="setParam(['canvas', 'svg'], 'svg')" value="SVG"/>
-    </div>
+    
     <div id="main" style="width:600px;height:600px;"></div>
 
     <script type="text/javascript">
-
-    function setParam(cleanList, newVal) {
-        var params = location.search.split('&');
-        for (var i = params.length - 1; i >= 0; i--) {
-            for (var j = 0; j < cleanList.length; j++) {
-                if (params[i] === cleanList[j]) {
-                    params.splice(i, 1);
-                }
-            }
-        }
-        newVal && params.push(newVal);
-        params.sort();
-        location.search = params.join('&');
-    }
 
     function hasParam(val) {
         var params = location.search.split('&');
@@ -46,18 +25,13 @@
 
 
     var withText = hasParam('with-text');
-    var renderMode = hasParam('svg') ? 'svg' : 'canvas';
+    var main = document.getElementById('main');
+    var zr = zrender.init(main);
+    
+    var stats = new Stats();
+    document.body.appendChild(stats.dom);
 
-var zr = zrender.init(document.getElementById('main'), {
-    renderer: renderMode
-});
 
-var stats = new Stats();
-document.body.appendChild(stats.dom);
-
-option = {
-    series: []
-};
 
 /**
  * Given a set of points, lay them out in a phyllotaxis layout.
@@ -215,8 +189,11 @@ var width = zr.getWidth();
 var height = zr.getHeight();
 
 // point settings
-var numPoints = withText ? 2000 : 10000;
+// 点数量
+var numPoints = 10000;
+// 点的宽
 var pointWidth = 3;
+// 点间距
 var pointMargin = 3;
 
 // animation settings
