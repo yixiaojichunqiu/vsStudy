@@ -93,6 +93,7 @@ export default Path.extend({
         }
         else {
             if (percent < 1) {
+                //animation#10
                 cubicSubdivide(
                     x1, cpx1, cpx2, x2, percent, out
                 );

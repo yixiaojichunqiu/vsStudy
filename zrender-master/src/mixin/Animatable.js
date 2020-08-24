@@ -37,6 +37,7 @@ Animatable.prototype = {
      *         .done(function(){ // Animation done })
      *         .start()
      */
+    //animation#4
     animate: function (path, loop) {
         var target;
         var animatingShape = false;
@@ -82,7 +83,7 @@ Animatable.prototype = {
             // FIXME Animator will not be removed if use `Animator#stop` to stop animation
             animators.splice(indexOf(animators, animator), 1);
         });
-
+        //animation#5
         animators.push(animator);
 
         // If animate after added to the zrender
@@ -151,6 +152,7 @@ Animatable.prototype = {
     }
 };
 
+//animation#1
 function animateTo(animatable, target, time, delay, easing, callback, forceAnimate, reverse) {
     // animateTo(target, time, easing, callback);
     if (isString(delay)) {
@@ -180,10 +182,12 @@ function animateTo(animatable, target, time, delay, easing, callback, forceAnima
     }
     // Stop all previous animations
     animatable.stopAnimation();
+    //animation#2
     animateToShallow(animatable, '', animatable, target, time, delay, reverse);
 
     // Animators may be removed immediately after start
     // if there is nothing to animate
+    //animation#6
     var animators = animatable.animators.slice();
     var count = animators.length;
     function done() {
@@ -200,6 +204,7 @@ function animateTo(animatable, target, time, delay, easing, callback, forceAnima
     }
     // Start after all animators created
     // Incase any animator is done immediately when all animation properties are not changed
+    //animation#7
     for (var i = 0; i < animators.length; i++) {
         animators[i]
             .done(done)
@@ -269,6 +274,7 @@ function animateToShallow(animatable, path, source, target, time, delay, reverse
         }
     }
 
+    //animation#3
     if (propertyCount > 0) {
         animatable.animate(path, false)
             .when(time == null ? 500 : time, objShallow)

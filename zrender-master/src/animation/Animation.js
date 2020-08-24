@@ -109,6 +109,7 @@ Animation.prototype = {
         animator.animation = null;
     },
 
+    //animation#9
     _update: function () {//更新
         var time = new Date().getTime() - this._pausedTime;//不考虑暂停 _pausedTime为0
         var delta = time - this._time;//间隔时间
@@ -168,7 +169,7 @@ Animation.prototype = {
             if (self._running) {
 
                 requestAnimationFrame(step);
-
+                //animation#8
                 !self._paused && self._update();
             }
         }
