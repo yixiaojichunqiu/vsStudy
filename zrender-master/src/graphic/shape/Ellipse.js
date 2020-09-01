@@ -1,5 +1,5 @@
 /**
- * 椭圆形状
+ * 椭圆形状= =。
  * @module zrender/graphic/shape/Ellipse
  */
 
