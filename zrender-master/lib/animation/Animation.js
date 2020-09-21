@@ -111,6 +111,7 @@ Animation.prototype = {
 
     animator.animation = null;
   },
+  //animation#9
   _update: function () {
     //更新
     var time = new Date().getTime() - this._pausedTime; //不考虑暂停 _pausedTime为0
@@ -168,7 +169,8 @@ Animation.prototype = {
 
     function step() {
       if (self._running) {
-        requestAnimationFrame(step);
+        requestAnimationFrame(step); //animation#8
+
         !self._paused && self._update();
       }
     }

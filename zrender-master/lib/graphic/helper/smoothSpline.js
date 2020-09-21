@@ -13,6 +13,12 @@ var v2Distance = _vector.distance;
 /**
  * @inner
  */
+//Catmull-Rom
+//之前Animator.js里有关注到
+//     p1
+//t    (p2 - p0)/2
+//t^2  (-3 * (p1 - p2) - 2 * v0 - v1)
+//t^3   (2 * (p1 - p2) + v0 + v1)
 function interpolate(p0, p1, p2, p3, t, t2, t3) {
   var v0 = (p2 - p0) * 0.5;
   var v1 = (p3 - p1) * 0.5;

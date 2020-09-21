@@ -48,7 +48,8 @@ function buildPath(ctx, shape) {
     }
   } else {
     r1 = r2 = r3 = r4 = 0;
-  }
+  } //zrender 圆角矩形算法 和css略有不同
+
 
   var total;
 

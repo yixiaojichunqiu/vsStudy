@@ -14,7 +14,7 @@ var _default = Path.extend({
     smoothConstraint: null
   },
   buildPath: function (ctx, shape) {
-    polyHelper.buildPath(ctx, shape, true);
+    polyHelper.buildPath(ctx, shape, false);
   }
 });
 

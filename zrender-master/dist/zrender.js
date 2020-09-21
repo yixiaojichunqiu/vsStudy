@@ -4434,20 +4434,20 @@ function interpolateArray(p0, p1, percent, out, arrDim) {//插值数组
     }
 }
 
-// arr0 is source array, arr1 is target array. 0是源数组 1是目标数组
-// Do some preprocess to avoid error happened when interpolating from arr0 to arr1 做一些预处理 避免 数组0到1插值时出错
+// 0是源数组 1是目标数组
+// 做一些预处理 避免 数组0到1插值时出错
 function fillArr(arr0, arr1, arrDim) {
     var arr0Len = arr0.length;
     var arr1Len = arr1.length;
-    if (arr0Len !== arr1Len) {
+    if (arr0Len !== arr1Len) {//如果前面的帧 和 最后一帧 数组数据长度不同
         // FIXME Not work for TypedArray
         var isPreviousLarger = arr0Len > arr1Len;
         if (isPreviousLarger) {
-            // Cut the previous
+            // 前面的帧数据多的话 就丢弃掉多的
             arr0.length = arr1Len;
         }
         else {
-            // Fill the previous
+            // 前面的帧数据少的话 就补齐 补的值和最后一帧相同
             for (var i = arr0Len; i < arr1Len; i++) {
                 arr0.push(
                     arrDim === 1 ? arr1[i] : arraySlice.call(arr1[i])
@@ -4455,7 +4455,7 @@ function fillArr(arr0, arr1, arrDim) {
             }
         }
     }
-    // Handling NaN value
+    // 处理 NaN 的情况
     var len2 = arr0[0] && arr0[0].length;
     for (var i = 0; i < arr0.length; i++) {
         if (arrDim === 1) {
@@ -4508,7 +4508,7 @@ function isArraySame(arr0, arr1, arrDim) {
 }
 
 /**
- * Catmull Rom interpolate array
+ * Catmull–Rom interpolate array
  * @param  {Array} p0
  * @param  {Array} p1
  * @param  {Array} p2
@@ -4519,6 +4519,8 @@ function isArraySame(arr0, arr1, arrDim) {
  * @param  {Array} out
  * @param  {number} arrDim
  */
+//Catmull–Rom 曲线
+//Centripetal Catmull–Rom spline
 function catmullRomInterpolateArray(
     p0, p1, p2, p3, t, t2, t3, out, arrDim
 ) {
@@ -4544,7 +4546,7 @@ function catmullRomInterpolateArray(
 }
 
 /**
- * Catmull Rom interpolate number
+ * Catmull–Rom interpolate number
  * @param  {number} p0
  * @param  {number} p1
  * @param  {number} p2
@@ -4593,34 +4595,45 @@ function getArrayDim(keyframes) {
 }
 
 //keyframes [{time:0,value;[100,100]},{time:200,value;[200,0]}]
+//animation*3
+//keyframes 关键帧信息 time多少 value多少
 function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, forceAnimate) {
     var getter = animator._getter;
     var setter = animator._setter;
     var useSpline = easing === 'spline';
 
-    //frame 传入两个位置时为2
+    //几个关键帧
+    //位移动画时传入两个位置时为2
     var trackLen = keyframes.length;
     if (!trackLen) {
         return;
     }
     // Guess data type
-    var firstVal = keyframes[0].value;//[100,100]
+    var firstVal = keyframes[0].value;//取第一个关键帧的value 例如[100,100]
     var isValueArray = isArrayLike(firstVal);//第一个是不是数组
     var isValueColor = false;
     var isValueString = false;
-
+    
     // For vertices morphing
+    //如果第一个关键帧里value是数组 取最后一个关键帧 如果最后一个关键帧是数组 并且其第0个元素也是数组 返回2 否则返回1
+    //所以arrDim 为0 代表关键帧value是个值
+    //arrDim 为1 代表关键帧value是个数组
+    //arrDim 为2 代表关键帧value是数组套数组
     var arrDim = isValueArray ? getArrayDim(keyframes) : 0;//是数组 返回getArrayDim(keyframes)
-
+    
     var trackMaxTime;
-    // Sort keyframe as ascending 按time排序
+    // Sort keyframe as ascending
+    //关键帧 按time排序 time小的在前面 time小的先发生
     keyframes.sort(function (a, b) {
         return a.time - b.time;
     });
-
-    trackMaxTime = keyframes[trackLen - 1].time;//最大时间是多少
-    // Percents of each keyframe 关键帧占总时间的比例数组
+    //最后一帧的时间 决定了总共动画的时长
+    trackMaxTime = keyframes[trackLen - 1].time;
+    
+    // Percents of each keyframe
+    //各个关键帧占总时间的比例数组
     var kfPercents = [];
+    
     // Value of each keyframe 关键帧的值
     var kfValues = [];
     var prevValue = keyframes[0].value;//准备值
@@ -4630,7 +4643,8 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         // Assume value is a color when it is a string
         var value = keyframes[i].value;
 
-        // Check if value is equal, deep check if value is array 比较这一次和上一次value
+        // Check if value is equal, deep check if value is array
+        //比较这一帧和上一帧的value
         if (!((isValueArray && isArraySame(value, prevValue, arrDim))
             || (!isValueArray && value === prevValue))) {
             isAllValueEqual = false;
@@ -4638,6 +4652,7 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         prevValue = value;//记录上一次value
 
         // Try converting a string to a color array
+        // 如果value是字符串 看看是否解析成颜色
         if (typeof value === 'string') {
             var colorArray = parse(value);
             if (colorArray) {
@@ -4650,15 +4665,18 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         }
         kfValues.push(value);
     }
-    if (!forceAnimate && isAllValueEqual) {//value和上次相同时return
+    //AllValue和上次相同时 两个帧value一样 return掉
+    if (!forceAnimate && isAllValueEqual) {
         return;
     }
-
-    var lastValue = kfValues[trackLen - 1];//最后一个value
-    // Polyfill array and NaN value 
+    
+    //最后一帧的 value
+    var lastValue = kfValues[trackLen - 1];
+    // Polyfill array and NaN value
+    // 遍历关键帧
     for (var i = 0; i < trackLen - 1; i++) {
         if (isValueArray) {
-            fillArr(kfValues[i], lastValue, arrDim);//所有的数组数据 以最后一个关键帧为基准
+            fillArr(kfValues[i], lastValue, arrDim);//所有的数组数据 以最后一个关键帧里数据数量为基准
         }
         else {
             if (isNaN(kfValues[i]) && !isNaN(lastValue) && !isValueString && !isValueColor) {
@@ -4683,6 +4701,8 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         var rgba = [0, 0, 0, 0];
     }
 
+    //animation*4
+    //percent 是当前的时间百分比走到哪里了
     var onframe = function (target, percent) {
         // Find the range keyframes
         // kf1-----kf2---------current--------kf3
@@ -4692,19 +4712,19 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         if (percent < 0) {
             frame = 0;
         }
-        else if (percent < lastFramePercent) {
+        else if (percent < lastFramePercent) {//待看TODO
             // Start from next key
-            // PENDING start from lastFrame ?
+            // PENDING start from lastFrame
             start = Math.min(lastFrame + 1, trackLen - 1);
             for (frame = start; frame >= 0; frame--) {
                 if (kfPercents[frame] <= percent) {
                     break;
                 }
             }
-            // PENDING really need to do this ?
+            // PENDING really need to do this
             frame = Math.min(frame, trackLen - 2);
         }
-        else {
+        else {//每次比上次的大
             for (frame = lastFrame; frame < trackLen; frame++) {
                 if (kfPercents[frame] > percent) {
                     break;
@@ -4712,16 +4732,19 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
             }
             frame = Math.min(frame - 1, trackLen - 2);
         }
-        lastFrame = frame;
+        lastFrame = frame;//缓存这次调用 算出的frame 和 percent
         lastFramePercent = percent;
-
+        
+        //kfPercents[frame + 1] 目标帧的percent kfPercents[frame] 上一帧的percent
         var range = (kfPercents[frame + 1] - kfPercents[frame]);//两个关键帧之间的比例差 0.25
         if (range === 0) {
             return;
         }
         else {
-            w = (percent - kfPercents[frame]) / range;//w
+            //现在走到了当前两帧之间的多少百分比了 w目前理解为t
+            w = (percent - kfPercents[frame]) / range;
         }
+        //所谓样条曲线(Spline Curves)是指给定一组控制点而得到一条曲线，曲线的大致形状由这些点予以控制，一般可分为插值样条和逼近样条两种，插值样条通常用于数字化绘图或动画的设计，逼近样条一般用来构造物体的表面。
         if (useSpline) {//spline是样条,是一种分段光滑的多项式,
             p1 = kfValues[frame];
             p0 = kfValues[frame === 0 ? frame : frame - 1];
@@ -4761,7 +4784,7 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         }
         else {
             if (isValueArray) {
-                interpolateArray(
+                interpolateArray(//知道在哪两个关键帧之间 又知道在两个关键帧处于什么百分比 算出目前应该的值就行了
                     kfValues[frame], kfValues[frame + 1], w,
                     getter(target, propName),
                     arrDim
@@ -4792,6 +4815,7 @@ function createTrackClip(animator, easing, oneTrackDone, keyframes, propName, fo
         }
     };
 
+    //创建一个clip对象
     var clip = new Clip({
         target: animator._target,
         life: trackMaxTime,
@@ -4923,6 +4947,7 @@ Animator.prototype = {
      * @param  {boolean} forceAnimate
      * @return {module:zrender/animation/Animator}
      */
+    //animation*1
     start: function (easing, forceAnimate) {//start方法
 
         var self = this;
@@ -4936,6 +4961,7 @@ Animator.prototype = {
         };
 
         var lastClip;
+        //animation*2 动画属性遍历 例如有个position 则propName = "position"
         for (var propName in this._tracks) {
             if (!this._tracks.hasOwnProperty(propName)) {
                 continue;
@@ -5084,6 +5110,7 @@ Animatable.prototype = {
      *         .done(function(){ // Animation done })
      *         .start()
      */
+    //animation#4
     animate: function (path, loop) {
         var target;
         var animatingShape = false;
@@ -5129,7 +5156,7 @@ Animatable.prototype = {
             // FIXME Animator will not be removed if use `Animator#stop` to stop animation
             animators.splice(indexOf(animators, animator), 1);
         });
-
+        //animation#5
         animators.push(animator);
 
         // If animate after added to the zrender
@@ -5198,6 +5225,7 @@ Animatable.prototype = {
     }
 };
 
+//animation#1
 function animateTo(animatable, target, time, delay, easing, callback, forceAnimate, reverse) {
     // animateTo(target, time, easing, callback);
     if (isString(delay)) {
@@ -5227,10 +5255,12 @@ function animateTo(animatable, target, time, delay, easing, callback, forceAnima
     }
     // Stop all previous animations
     animatable.stopAnimation();
+    //animation#2
     animateToShallow(animatable, '', animatable, target, time, delay, reverse);
 
     // Animators may be removed immediately after start
     // if there is nothing to animate
+    //animation#6
     var animators = animatable.animators.slice();
     var count = animators.length;
     function done() {
@@ -5247,6 +5277,7 @@ function animateTo(animatable, target, time, delay, easing, callback, forceAnima
     }
     // Start after all animators created
     // Incase any animator is done immediately when all animation properties are not changed
+    //animation#7
     for (var i = 0; i < animators.length; i++) {
         animators[i]
             .done(done)
@@ -5316,6 +5347,7 @@ function animateToShallow(animatable, path, source, target, time, delay, reverse
         }
     }
 
+    //animation#3
     if (propertyCount > 0) {
         animatable.animate(path, false)
             .when(time == null ? 500 : time, objShallow)
@@ -8617,7 +8649,8 @@ function buildPath(ctx, shape) {
     else {
         r1 = r2 = r3 = r4 = 0;
     }
-
+    //zrender 圆角矩形算法 和css略有不同
+    
     var total;
     if (r1 + r2 > width) {
         total = r1 + r2;
@@ -10839,6 +10872,7 @@ Animation.prototype = {
         animator.animation = null;
     },
 
+    //animation#9
     _update: function () {//更新
         var time = new Date().getTime() - this._pausedTime;//不考虑暂停 _pausedTime为0
         var delta = time - this._time;//间隔时间
@@ -10898,7 +10932,7 @@ Animation.prototype = {
             if (self._running) {
 
                 requestAnimationFrame(step);
-
+                //animation#8
                 !self._paused && self._update();
             }
         }
@@ -12044,6 +12078,8 @@ function cubicDerivativeAt(p0, p1, p2, p3, t) {
 
 /**
  * 计算三次贝塞尔方程根，使用盛金公式
+ * 用数据测试了下 应该是在解3次方程 根据x 反求t 但是好像有些问题 需要进一步看源码
+ * 除此之外 牛顿迭代法 二分法 也是解决方案
  * @memberOf module:zrender/core/curve
  * @param  {number} p0
  * @param  {number} p1
@@ -12396,9 +12432,9 @@ function quadraticExtremum(p0, p1, p2) {
  * @param  {Array.<number>} out
  */
 function quadraticSubdivide(p0, p1, p2, t, out) {
-    var p01 = (p1 - p0) * t + p0;
-    var p12 = (p2 - p1) * t + p1;
-    var p012 = (p12 - p01) * t + p01;
+    var p01 = (p1 - p0) * t + p0;//p0到p1 对应百分比t的点 q0
+    var p12 = (p2 - p1) * t + p1;//p1到p2 对应百分比t的点 q1
+    var p012 = (p12 - p01) * t + p01;//q0 到 q1连线 对应百分比t的点 是线上的点
 
     // Seg0
     out[0] = p0;
@@ -15280,7 +15316,7 @@ var Rect = Path.extend({
 });
 
 /**
- * 椭圆形状
+ * 椭圆形状= =。
  * @module zrender/graphic/shape/Ellipse
  */
 
@@ -15399,6 +15435,12 @@ var Line = Path.extend({
 /**
  * @inner
  */
+//Catmull-Rom
+//之前Animator.js里有关注到
+//     p1
+//t    (p2 - p0)/2
+//t^2  (-3 * (p1 - p2) - 2 * v0 - v1)
+//t^3   (2 * (p1 - p2) + v0 + v1)
 function interpolate(p0, p1, p2, p3, t, t2, t3) {
     var v0 = (p2 - p0) * 0.5;
     var v1 = (p3 - p1) * 0.5;
@@ -15484,20 +15526,6 @@ var smoothBezier = function (points, smooth, isLoop, constraint) {
     var prevPoint;
     var nextPoint;
 
-    var min$$1;
-    var max$$1;
-    if (constraint) {
-        min$$1 = [Infinity, Infinity];
-        max$$1 = [-Infinity, -Infinity];
-        for (var i = 0, len$$1 = points.length; i < len$$1; i++) {
-            min(min$$1, min$$1, points[i]);
-            max(max$$1, max$$1, points[i]);
-        }
-        // 与指定的包围盒做并集
-        min(min$$1, min$$1, constraint[0]);
-        max(max$$1, max$$1, constraint[1]);
-    }
-
     for (var i = 0, len$$1 = points.length; i < len$$1; i++) {
         var point = points[i];
 
@@ -15533,12 +15561,12 @@ var smoothBezier = function (points, smooth, isLoop, constraint) {
         scale(v2, v, d1);
         var cp0 = add([], point, v1);
         var cp1 = add([], point, v2);
-        if (constraint) {
-            max(cp0, cp0, min$$1);
-            min(cp0, cp0, max$$1);
-            max(cp1, cp1, min$$1);
-            min(cp1, cp1, max$$1);
-        }
+        // if (constraint) {
+        //     v2Max(cp0, cp0, min);
+        //     v2Min(cp0, cp0, max);
+        //     v2Max(cp1, cp1, min);
+        //     v2Min(cp1, cp1, max);
+        // }
         cps.push(cp0);
         cps.push(cp1);
     }
@@ -15603,7 +15631,7 @@ var Polygon = Path.extend({
     },
 
     buildPath: function (ctx, shape) {
-        buildPath$1(ctx, shape, true);
+        buildPath$1(ctx, shape, false);
     }
 });
 
@@ -16686,6 +16714,7 @@ var BezierCurve = Path.extend({
         }
         else {
             if (percent < 1) {
+                //animation#10
                 cubicSubdivide(
                     x1, cpx1, cpx2, x2, percent, out
                 );

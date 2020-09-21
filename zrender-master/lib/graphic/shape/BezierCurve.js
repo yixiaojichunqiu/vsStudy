@@ -77,6 +77,7 @@ var _default = Path.extend({
       ctx.quadraticCurveTo(cpx1, cpy1, x2, y2);
     } else {
       if (percent < 1) {
+        //animation#10
         cubicSubdivide(x1, cpx1, cpx2, x2, percent, out);
         cpx1 = out[1];
         cpx2 = out[2];

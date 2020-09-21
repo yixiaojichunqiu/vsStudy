@@ -1,7 +1,7 @@
 var Path = require("../Path");
 
 /**
- * 椭圆形状
+ * 椭圆形状= =。
  * @module zrender/graphic/shape/Ellipse
  */
 var _default = Path.extend({
