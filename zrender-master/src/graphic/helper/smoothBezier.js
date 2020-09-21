@@ -38,17 +38,17 @@ export default function (points, smooth, isLoop, constraint) {
 
     var min;
     var max;
-    if (constraint) {
-        min = [Infinity, Infinity];
-        max = [-Infinity, -Infinity];
-        for (var i = 0, len = points.length; i < len; i++) {
-            v2Min(min, min, points[i]);
-            v2Max(max, max, points[i]);
-        }
-        // 与指定的包围盒做并集
-        v2Min(min, min, constraint[0]);
-        v2Max(max, max, constraint[1]);
-    }
+    // if (constraint) {
+    //     min = [Infinity, Infinity];
+    //     max = [-Infinity, -Infinity];
+    //     for (var i = 0, len = points.length; i < len; i++) {
+    //         v2Min(min, min, points[i]);
+    //         v2Max(max, max, points[i]);
+    //     }
+    //     // 与指定的包围盒做并集
+    //     v2Min(min, min, constraint[0]);
+    //     v2Max(max, max, constraint[1]);
+    // }
 
     for (var i = 0, len = points.length; i < len; i++) {
         var point = points[i];
@@ -85,12 +85,12 @@ export default function (points, smooth, isLoop, constraint) {
         v2Scale(v2, v, d1);
         var cp0 = v2Add([], point, v1);
         var cp1 = v2Add([], point, v2);
-        if (constraint) {
-            v2Max(cp0, cp0, min);
-            v2Min(cp0, cp0, max);
-            v2Max(cp1, cp1, min);
-            v2Min(cp1, cp1, max);
-        }
+        // if (constraint) {
+        //     v2Max(cp0, cp0, min);
+        //     v2Min(cp0, cp0, max);
+        //     v2Max(cp1, cp1, min);
+        //     v2Min(cp1, cp1, max);
+        // }
         cps.push(cp0);
         cps.push(cp1);
     }

@@ -19,6 +19,6 @@ export default Path.extend({
     },
 
     buildPath: function (ctx, shape) {
-        polyHelper.buildPath(ctx, shape, true);
+        polyHelper.buildPath(ctx, shape, false);
     }
 });
