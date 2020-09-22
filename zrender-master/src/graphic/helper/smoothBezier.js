@@ -96,7 +96,7 @@ export default function (points, smooth, isLoop, constraint) {
     }
 
     if (isLoop) {
-        cps.push(cps.shift());
+        cps.push(cps.shift());//数组第一个挪到最后
     }
 
     return cps;
