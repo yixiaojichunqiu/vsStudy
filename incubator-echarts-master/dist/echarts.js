@@ -1,4 +1,3 @@
-//现在用的这个
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -21911,7 +21910,6 @@ var GlobalModel = Model.extend({
         this._optionManager = optionManager;
     },
 
-    //设置option
     setOption: function (option, optionPreprocessorFuncs) {
         assert$1(
             !(OPTION_INNER_KEY in option),
@@ -29833,7 +29831,6 @@ function enableConnect(chart) {
  * @param {number} [opts.height] Use clientHeight of the input `dom` by default.
  *                               Can be 'auto' (the same as null/undefined)
  */
-//init初始化
 function init(dom, theme$$1, opts) {
     if (__DEV__) {
         // Check version
