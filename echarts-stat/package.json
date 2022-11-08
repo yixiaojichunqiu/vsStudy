@@ -14,7 +14,7 @@
     "url": "https://github.com/ecomfe/echarts-stat"
   },
   "devDependencies": {
-    "webpack": "^1.13.3",
+    "webpack": "^5.74.0",
     "webpack-link": "^0.2.0"
   }
 }
