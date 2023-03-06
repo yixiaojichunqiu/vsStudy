@@ -1,0 +1,41 @@
+<body></body>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:svgjs="http://svgjs.dev/svgjs" width="100%" height="100%" overflow="visible" filter=""
+    style="position: absolute;">
+    <defs>
+        <filter id="gaussPtPR1IvOiGOujiTA1xL0iNV9rI3StSC5" width="1600%" height="1600%" x="-400%" y="-400%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1"></feGaussianBlur>
+            <!-- in:模糊效果。SourceGraphic即定义整个图像创建的效果   SourceAlpha-->
+        </filter>
+        <!-- patternUnits="userSpaceOnUse"表示<pattern>的宽度和长度是实际的像素值。然后，指定这个模式去填充下面的矩形。userSpaceOnUse:它显示了当应用图案时，几何属性的所有坐标均参考用户坐标系。
+objectBoundingBox:它显示了几何属性的所有坐标都表示元素边界框的百分比或分数。 -->
+        <pattern x="0" y="0" patternUnits="objectBoundingBox" id="patternPtPR1IvOiGOujiTA1xL0iNV9rI3StSC5" width="100%"
+            height="100%"></pattern>
+        <clipPath></clipPath>
+        <linearGradient gradientTransform="rotate(0 0.5 0.5)" id="SvgjsLinearGradient1088">
+            <stop stop-opacity="1" stop-color="rgba(227,64,64,1)" offset="0"></stop>
+            <stop stop-opacity="1" stop-color="rgba(238,222,86,1)" offset="0.42"></stop>
+            <stop stop-opacity="1" stop-color="rgba(243,12,12,1)" offset="1"></stop>
+        </linearGradient>
+    </defs>
+    <!-- &quot; 引号 -->
+    <!-- L指令为中心点  M 起笔点 移动到  A代表椭圆弧 半径x 半径y 顺时针 大弧度 顺时针凹凸 下边连线点   L中心点连笔点 连线到   Z关闭路径     -->
+    <path d="M 0 100
+    A 100 100, 0, 1, 1, 200 100
+    L 50 50 Z" fill="url(&quot;#SvgjsLinearGradient1088&quot;)" strokeWidth="2"
+        filter="url(#gaussPtPR1IvOiGOujiTA1xL0iNV9rI3StSC5)" stroke="rgba(0,0,0,0)" stroke-width="0"
+        stroke-dasharray="0" clip-path=""></path>
+    <path d="M0 100
+    A 100 100, 0, 1, 1, 200 100
+    L 200 100 Z" fill="url(#patternPtPR1IvOiGOujiTA1xL0iNV9rI3StSC5)" strokeWidth="2"
+        filter="url(#gaussPtPR1IvOiGOujiTA1xL0iNV9rI3StSC5)" stroke="rgba(0,0,0,0)" stroke-width="0"
+        stroke-dasharray="0" clip-path=""></path>
+
+    <defs>
+        <pattern id="dots" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <circle fill="#bee9e8" cx="50" cy="50" r="35" />
+        </pattern>
+    </defs>
+    <rect x="0" y="0" width="240" height="200" fill="url(#dots)" />
+</svg>
+</body>
